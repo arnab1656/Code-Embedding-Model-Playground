@@ -1,0 +1,199 @@
+class GridSolver:
+    def min_path_sum(self, grid):
+        if not grid or not grid[0]:
+            return 0
+        m, n = len(grid), len(grid[0])
+        dp = [[0]*n for _ in range(m)]
+        dp[0][0] = grid[0][0]
+        for i in range(1, m):
+            dp[i][0] = dp[i-1][0] + grid[i][0]
+        for j in range(1, n):
+            dp[0][j] = dp[0][j-1] + grid[0][j]
+        for i in range(1, m):
+            for j in range(1, n):
+                dp[i][j] = grid[i][j] + min(dp[i-1][j], dp[i][j-1])
+        return dp[-1][-1]
+
+class MathUtils:
+    def factorial(self, n):
+        return 1 if n == 0 else n * self.factorial(n-1)
+
+class StringUtils:
+    def reverse_string(self, s: str) -> str:
+        return s[::-1]
+
+    def is_palindrome(self, s: str) -> bool:
+        return s == s[::-1]
+
+class Calculator:
+    def add(self, a: int, b: int) -> int:
+        return a + b
+
+    def subtract(self, a: int, b: int) -> int:
+        return a - b
+
+    def multiply(self, a: int, b: int) -> int:
+        return a * b
+
+    def divide(self, a: int, b: int) -> float:
+        if b == 0:
+            raise ValueError("Cannot divide by zero")
+        return a / b
+
+class FileHandler:
+    def __init__(self, filename):
+        self.filename = filename
+
+    def read_file(self):
+        with open(self.filename, "r") as f:
+            return f.read()
+
+    def write_file(self, content):
+        with open(self.filename, "w") as f:
+            f.write(content)
+
+class TemperatureConverter:
+    def celsius_to_fahrenheit(self, c: float) -> float:
+        return (c * 9/5) + 32
+
+    def fahrenheit_to_celsius(self, f: float) -> float:
+        return (f - 32) * 5/9
+
+def longest_palindromic_substring(s):
+    n = len(s)
+    longest = ''
+    for i in range(n):
+        for j in range(i, n):
+            substring = s[i:j+1]
+            if substring == substring[::-1] and len(substring) > len(longest):
+                longest = substring
+    return longest
+
+# String and text processing
+
+def longest_palindromic_substring(s):
+    n = len(s)
+    longest = ''
+    for i in range(n):
+        for j in range(i, n):
+            substring = s[i:j+1]
+            if substring == substring[::-1] and len(substring) > len(longest):
+                longest = substring
+    return longest
+def camel_to_snake(name):
+    import re\n"
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\\1_\\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\\1_\\2', s1).lower()"
+
+
+# List and dict operations
+def group_anagrams(words):
+    from collections import defaultdict
+    result = defaultdict(list)
+    for word in words:
+        key = ''.join(sorted(word))
+        result[key].append(word)
+    return list(result.values())
+
+def sliding_window_max(nums, k):
+    from collections import deque
+    q = deque()
+    result = []
+    for i, num in enumerate(nums):
+        while q and q[0] <= i - k:
+            q.popleft()\n"
+        while q and nums[q[-1]] < num:
+            q.pop()
+        q.append(i)
+        if i >= k - 1:
+            result.append(nums[q[0]])
+    return result
+
+# Math / Algorithm
+def knapsack(weights, values, capacity):
+    n = len(weights)
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+    for i in range(1, n + 1):
+        for w in range(capacity + 1):
+            if weights[i - 1] <= w:
+                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1])
+            else:
+                dp[i][w] = dp[i - 1][w]
+    return dp[n][capacity]
+
+
+def all_permutations(lst):
+    if len(lst) <= 1:
+        return [lst]
+    perms = []
+    for i in range(len(lst)):
+        for p in all_permutations(lst[:i] + lst[i + 1:]):
+            perms.append([lst[i]] + p)
+    return perms
+
+# File / JSON / CSV
+def merge_csv_files(file_list, output_file):
+    import pandas as pd
+    df_list = [pd.read_csv(f) for f in file_list]
+    combined = pd.concat(df_list)
+    combined.to_csv(output_file, index=False)
+
+
+def count_word_frequency_in_file(filename):
+    from collections import Counter
+    with open(filename, 'r') as f:
+        words = f.read().split()
+    return Counter(words)
+
+# Recursion / Dynamic Programming
+def min_path_sum(grid):
+    if not grid or not grid[0]:
+        return 0
+    m, n = len(grid), len(grid[0])
+    dp = [[0] * n for _ in range(m)]
+    dp[0][0] = grid[0][0]
+    for i in range(1, m):
+        dp[i][0] = dp[i - 1][0] + grid[i][0]
+    for j in range(1, n):
+        dp[0][j] = dp[0][j - 1] + grid[0][j]
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[i][j] = grid[i][j] + min(dp[i - 1][j], dp[i][j - 1])
+    return dp[-1][-1]
+
+
+def edit_distance(s1, s2):
+    m, n = len(s1), len(s2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(m + 1):
+        for j in range(n + 1):
+            if i == 0:
+                dp[i][j] = j
+            elif j == 0:
+                dp[i][j] = i
+            elif s1[i - 1] == s2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
+    return dp[m][n]
+
+# Misc / Utilities
+def top_k_frequent_elements(nums, k):
+    from collections import Counter
+    count = Counter(nums)
+    return [item for item, freq in count.most_common(k)]
+
+
+def balanced_parentheses(n):
+    def generate(p, left, right, result):
+        if len(p) == 2 * n:
+            result.append(p)
+            return
+        if left < n:
+            generate(p + '(', left + 1, right, result)
+        if right < left:
+            generate(p + ')', left, right + 1, result)
+
+    result = []
+    generate('', 0, 0, result)
+    return result

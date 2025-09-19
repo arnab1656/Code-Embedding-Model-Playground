@@ -37,7 +37,7 @@ def embedding_retreival(query,passages):
 
       # Top k similarity
       print("\n\n <--- Top k Passage --> \n\n")
-      top_k = 3
+      top_k = 5
       topk_scores, topk_indices = torch.topk(scores, k=top_k, dim=1)
 
       top_k_retreival = [{ i+1: passages[topk_indices[0][i]] , "score" : topk_scores[0][i].item() } for i in range(top_k)]
