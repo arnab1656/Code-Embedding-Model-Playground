@@ -6,17 +6,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-try:
- with open("py.txt","r") as f:
-    code_text = f.read()
-except Exception as e:
-    print("Cannot acces the File")
-
-PYTHON_CODE = [code_text]
-
-# custom_separators = ['\nclass ', '\ndef ', '\n\tdef ', '\n\n', '\n', ' ', '']
-
-# custom_separators = ['\nclass ', '\ndef ', '\n\tdef ', '\n\n']
+with open("sample_data/py.txt","r") as f:
+  code_text = f.read()
+  
+# print(code_text)
 
 custom_separators = ['\nclass ','\ndef ', '\n\tdef ',]
 
@@ -28,29 +21,18 @@ python_splitter = RecursiveCharacterTextSplitter(
     chunk_overlap=0
 )
 
-python_docs = python_splitter.create_documents(PYTHON_CODE)
+python_docs = python_splitter.create_documents([code_text])
 
-print("-"*150)
+query = "File handling in python"
 
-for i, docs in enumerate(python_docs):
-  print("At index ---> ",i+1)
-  print("docs is ----> \n\n",docs.page_content,"\n\n")
-
-  print("-"*150)
-
-python_docs_text = [p.page_content for p in python_docs]
-
-query = ["make a snake letter in python"]
-
-best_passage, top_k_retreival = embedding_retreival(query, python_docs_text)
-
-print("best_passage --> \n" ,best_passage)
+top_k_retreival = embedding_retreival([query], python_docs)
 
 for i, top in enumerate(top_k_retreival):
-   print("-"*150)
-   print("top ->",top[i+1])
+  print("-"*150)
+  print("result ->",top[i+1])
+  print("-"*150)
 
-
+  
 prompt = PromptTemplate.from_template(
 """
 You are an AI coding assistant. 
