@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-with open("sample_data/py.txt","r") as f:
+with open("py.txt","r") as f:
   code_text = f.read()
   
 # print(code_text)
@@ -51,8 +51,6 @@ query:
 )
 
 code_docs = " ".join( top[i+1] for i,top in enumerate(top_k_retreival))
-
-query = "make a snake letter in python"
 
 llm = OpenAI()
 chain = prompt | llm
